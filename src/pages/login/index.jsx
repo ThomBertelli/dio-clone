@@ -9,17 +9,26 @@ import * as yup from "yup";
 
 import { Column, Container, CriarText, EsqueciText, Row, SubTitleLoggin, Title, TitleLoggin, Wapper} from './styles'
 
+import{ Api } from '../../services/api'
 
 export const Login = () =>{
 
     const navigate = useNavigate();
 
-    const handleClickSignIn = () =>{
-        navigate('/feed')
+    const onSubmit = async formData => {
+        try {
 
-    }
-
-    const onSubmit = data => console.log(data);
+            const {data} =  await Api.get(`users?email=${formData.email}&senha=${formData.password}`);
+            if(data.length === 1){
+                navigate('/feed')
+            }else{
+                alert('Email ou senha inválido.')
+            }
+            
+        } catch {
+            alert('Houve um erro, tente novamente.')
+        }
+    };
 
     const schema = yup.object({
         email: yup.string().email('Email não é valido').required("Campo Obrigatório"),
