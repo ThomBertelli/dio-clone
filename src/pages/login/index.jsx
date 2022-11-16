@@ -3,6 +3,9 @@ import { Button } from "../../components/Button";
 import { Header } from "../../components/Header";
 import { Input } from "../../components/Input";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form"
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
 
 import { Column, Container, CriarText, EsqueciText, Row, SubTitleLoggin, Title, TitleLoggin, Wapper} from './styles'
 
@@ -15,6 +18,18 @@ export const Login = () =>{
         navigate('/feed')
 
     }
+
+    const onSubmit = data => console.log(data);
+
+    const schema = yup.object({
+        email: yup.string().email('Email não é valido').required("Campo Obrigatório"),
+        password: yup.string().min(3, 'Mínimo 3 caracteres').required("Campo Obrigatório"),
+    }).required();
+
+    const { control, handleSubmit, formState: { errors, isValid } } = useForm({
+        resolver: yupResolver(schema),
+        mode:'onChange',
+    });
 
 
     return(<>
@@ -31,10 +46,10 @@ export const Login = () =>{
                 <Wapper>
                     <TitleLoggin>Faça seu Cadastro</TitleLoggin>
                     <SubTitleLoggin>Faça seu login e make the change._</SubTitleLoggin> 
-                    <form action="">
-                        <Input placeholder="E-mail" leftIcon={<MdEmail/>}/>
-                        <Input placeholder="Senha" type="password" leftIcon={<MdLock/>}/>
-                        <Button title="Entrar" variant="secondary" onClick={handleClickSignIn} type="button"/>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <Input name="email" errorMessage={errors?.email?.message} control={control} placeholder="E-mail" leftIcon={<MdEmail/>}/>
+                        <Input name="password" errorMessage={errors?.password?.message} control={control} placeholder="Senha" type="password" leftIcon={<MdLock/>}/>
+                        <Button title="Entrar" variant="secondary"  type="submit"/>
                     </form>
                     <Row>
                     <EsqueciText>Esqueci minha senha</EsqueciText>

@@ -24,3 +24,10 @@ export const InputText = styled.input`
     height: 30px;
     width:100%;
 `
+export const ErrorText = styled.p`
+    color:#FF0000;
+    font-size:14px;
+    margin: -10px 0 10px 0;
+
+
+`
