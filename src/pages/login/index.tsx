@@ -10,12 +10,13 @@ import * as yup from "yup";
 import { Column, Container, CriarText, EsqueciText, Row, SubTitleLoggin, Title, TitleLoggin, Wapper} from './styles'
 
 import{ Api } from '../../services/api'
+import { IFormData } from "./types";
 
 export const Login = () =>{
 
     const navigate = useNavigate();
 
-    const onSubmit = async formData => {
+    const onSubmit = async (formData:IFormData) => {
         try {
 
             const {data} =  await Api.get(`users?email=${formData.email}&senha=${formData.password}`);
@@ -35,7 +36,7 @@ export const Login = () =>{
         password: yup.string().min(3, 'Mínimo 3 caracteres').required("Campo Obrigatório"),
     }).required();
 
-    const { control, handleSubmit, formState: { errors, isValid } } = useForm({
+    const { control, handleSubmit, formState: { errors, isValid } } = useForm<IFormData>({
         resolver: yupResolver(schema),
         mode:'onChange',
     });

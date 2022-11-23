@@ -6,7 +6,7 @@ import {Header} from "../../components/Header"
 import {Card} from "../../components/Card"
 
 import {Container, Column,Title,TitleHighlight} from './styles'
-import { UserInfo } from "../../components/UserInfo/indeex";
+import { UserInfo } from "../../components/UserInfo";
 
 
 export const Feed = () =>{
